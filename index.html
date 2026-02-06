@@ -360,6 +360,41 @@
             background: #e6fffa;
             border-radius: 10px;
             margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Speaker Button Styles */
+        .speak-btn {
+            background: linear-gradient(135deg, #008080 0%, #20b2aa 100%);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        .speak-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0, 128, 128, 0.4);
+        }
+
+        .speak-btn:active {
+            transform: scale(0.95);
+        }
+
+        .answer-with-audio {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         @media (max-width: 600px) {
@@ -527,6 +562,17 @@
         // Load questions when page loads
         loadQuestions();
 
+        // Audio pronunciation function
+        function pronounceAnswer(text) {
+            // Cancel any ongoing speech
+            speechSynthesis.cancel();
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.9; // Slightly slower for clarity
+            speechSynthesis.speak(utterance);
+        }
+
         // Game state
         let currentQuestions = [];
         let currentQuestionIndex = 0;
@@ -667,7 +713,14 @@
             const feedback = document.getElementById('feedback');
             feedback.classList.remove('hidden', 'correct', 'incorrect');
             feedback.classList.add(correct ? 'correct' : 'incorrect');
-            feedback.textContent = correct ? 'Correct!' : `Incorrect. The answer is: ${question.a}`;
+
+            // Add speaker button for audio pronunciation
+            const speakerBtn = `<button class="speak-btn" onclick="pronounceAnswer('${question.a.replace(/'/g, "\\'")}')">🔊</button>`;
+            if (correct) {
+                feedback.innerHTML = `Correct! ${speakerBtn}`;
+            } else {
+                feedback.innerHTML = `Incorrect. The answer is: ${question.a} ${speakerBtn}`;
+            }
 
             document.getElementById('next-btn').classList.remove('hidden');
             document.getElementById('next-btn').textContent =
@@ -779,7 +832,11 @@
                 getCategoryLabel(question.category);
 
             document.getElementById('study-question').textContent = question.q;
-            document.getElementById('study-answer').textContent = question.a;
+
+            // Add answer with speaker button
+            const answerEl = document.getElementById('study-answer');
+            const speakerBtn = `<button class="speak-btn" onclick="pronounceAnswer('${question.a.replace(/'/g, "\\'")}')">🔊</button>`;
+            answerEl.innerHTML = `<span>${question.a}</span> ${speakerBtn}`;
 
             // Update navigation buttons
             document.getElementById('prev-study').disabled = studyIndex === 0;
