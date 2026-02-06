@@ -445,6 +445,17 @@
                 <p>Test your knowledge of European geography! This quiz covers capitals, countries, mountains, rivers, and interesting facts from the GeoBowl study packet.</p>
 
                 <div class="category-select">
+                    <label for="region">Filter by region:</label>
+                    <select id="region">
+                        <option value="all">All Regions</option>
+                        <option value="northern">Northern Europe</option>
+                        <option value="southern">Southern Europe</option>
+                        <option value="eastern">Eastern Europe</option>
+                        <option value="western">Western Europe</option>
+                    </select>
+                </div>
+
+                <div class="category-select">
                     <label for="category">Choose a category:</label>
                     <select id="category">
                         <option value="all">All Categories (Mixed)</option>
@@ -579,6 +590,7 @@
         let score = 0;
         let categoryScores = {};
         let selectedCategory = 'all';
+        let selectedRegion = 'all';
         let numQuestions = 10;
         let answered = false;
 
@@ -595,7 +607,7 @@
             return newArray;
         }
 
-        function getQuestions(category, num) {
+        function getQuestions(category, num, region) {
             let pool = [];
 
             if (category === 'all') {
@@ -608,6 +620,11 @@
                 questions[category].forEach(q => {
                     pool.push({ ...q, category: category });
                 });
+            }
+
+            // Filter by region
+            if (region !== 'all') {
+                pool = pool.filter(q => q.region === region || q.region === 'all');
             }
 
             pool = shuffleArray(pool);
@@ -626,15 +643,32 @@
             return labels[cat] || cat;
         }
 
+        function getRegionLabel(region) {
+            const labels = {
+                all: 'All Regions',
+                northern: 'Northern Europe',
+                southern: 'Southern Europe',
+                eastern: 'Eastern Europe',
+                western: 'Western Europe'
+            };
+            return labels[region] || region;
+        }
+
         function startQuiz() {
             if (!questionsLoaded) {
                 alert('Questions are still loading. Please wait.');
                 return;
             }
             selectedCategory = document.getElementById('category').value;
+            selectedRegion = document.getElementById('region').value;
             numQuestions = parseInt(document.getElementById('num-questions').value);
 
-            currentQuestions = getQuestions(selectedCategory, numQuestions);
+            currentQuestions = getQuestions(selectedCategory, numQuestions, selectedRegion);
+
+            if (currentQuestions.length === 0) {
+                alert('No questions found for the selected category and region combination. Please try different filters.');
+                return;
+            }
             currentQuestionIndex = 0;
             score = 0;
             categoryScores = {};
@@ -799,8 +833,14 @@
             }
 
             selectedCategory = document.getElementById('category').value;
-            studyQuestions = getQuestions(selectedCategory, 999); // Get all questions
+            selectedRegion = document.getElementById('region').value;
+            studyQuestions = getQuestions(selectedCategory, 999, selectedRegion); // Get all questions
             studyIndex = 0;
+
+            if (studyQuestions.length === 0) {
+                alert('No questions found for the selected category and region combination. Please try different filters.');
+                return;
+            }
 
             const categoryLabels = {
                 all: 'All Categories',
@@ -812,7 +852,11 @@
                 glossary: 'Glossary Terms'
             };
 
-            document.getElementById('study-category-label').textContent = categoryLabels[selectedCategory];
+            let label = categoryLabels[selectedCategory];
+            if (selectedRegion !== 'all') {
+                label += ' - ' + getRegionLabel(selectedRegion);
+            }
+            document.getElementById('study-category-label').textContent = label;
 
             document.getElementById('start-screen').classList.add('hidden');
             document.getElementById('quiz-screen').classList.add('hidden');
