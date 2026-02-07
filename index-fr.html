@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeoBowl 2026 - Europe Quiz</title>
+    <title>GeoBowl 2026 - Quiz Europe</title>
     <style>
         * {
             box-sizing: border-box;
@@ -462,10 +462,10 @@
                 <span class="nav-title">GeoBowl 2026</span>
             </div>
             <div class="lang-selector">
-                <span class="lang-btn active">EN</span>
-                <a href="index-fr.html" class="lang-btn">FR</a>
+                <a href="index.html" class="lang-btn">EN</a>
+                <span class="lang-btn active">FR</span>
             </div>
-            <button class="nav-btn hidden" id="exit-btn" onclick="confirmExit()">Exit Quiz</button>
+            <button class="nav-btn hidden" id="exit-btn" onclick="confirmExit()">Quitter le quiz</button>
         </nav>
 
         <div class="card">
@@ -473,35 +473,35 @@
             <div id="start-screen" class="start-screen">
                 <div class="globe-emoji">🌍</div>
                 <h1>GeoBowl 2026</h1>
-                <p class="subtitle">Europe Study Quiz</p>
-                <p>Test your knowledge of European geography! This quiz covers capitals, countries, mountains, rivers, and interesting facts from the GeoBowl study packet.</p>
+                <p class="subtitle">Quiz d'étude Europe</p>
+                <p>Testez vos connaissances sur la géographie européenne ! Ce quiz couvre les capitales, les pays, les montagnes, les fleuves et des faits intéressants du dossier d'étude GeoBowl.</p>
 
                 <div class="category-select">
-                    <label for="region">Filter by region:</label>
+                    <label for="region">Filtrer par région :</label>
                     <select id="region">
-                        <option value="all">All Regions</option>
-                        <option value="northern">Northern Europe</option>
-                        <option value="southern">Southern Europe</option>
-                        <option value="eastern">Eastern Europe</option>
-                        <option value="western">Western Europe</option>
+                        <option value="tous">Toutes les régions</option>
+                        <option value="nord">Europe du Nord</option>
+                        <option value="sud">Europe du Sud</option>
+                        <option value="est">Europe de l'Est</option>
+                        <option value="ouest">Europe de l'Ouest</option>
                     </select>
                 </div>
 
                 <div class="category-select">
-                    <label for="category">Choose a category:</label>
+                    <label for="category">Choisissez une catégorie :</label>
                     <select id="category">
-                        <option value="all">All Categories (Mixed)</option>
-                        <option value="capitals">Countries & Capitals</option>
-                        <option value="geography">Geography & Bodies of Water</option>
-                        <option value="mountains">Mountains & Landforms</option>
-                        <option value="rivers">Rivers</option>
-                        <option value="facts">Interesting Facts</option>
-                        <option value="glossary">Glossary Terms</option>
+                        <option value="all">Toutes les catégories (Mélangées)</option>
+                        <option value="capitales">Pays et capitales</option>
+                        <option value="geographie">Géographie et étendues d'eau</option>
+                        <option value="montagnes">Montagnes et reliefs</option>
+                        <option value="fleuves">Fleuves</option>
+                        <option value="faits">Faits intéressants</option>
+                        <option value="glossaire">Termes du glossaire</option>
                     </select>
                 </div>
 
                 <div class="category-select">
-                    <label for="num-questions">Number of questions:</label>
+                    <label for="num-questions">Nombre de questions :</label>
                     <select id="num-questions">
                         <option value="10">10 Questions</option>
                         <option value="20">20 Questions</option>
@@ -510,8 +510,8 @@
                     </select>
                 </div>
 
-                <button class="btn" id="start-btn" onclick="startQuiz()" disabled>Loading Questions...</button>
-                <button class="btn btn-secondary" id="study-btn" onclick="startStudyMode()" disabled>Study Mode</button>
+                <button class="btn" id="start-btn" onclick="startQuiz()" disabled>Chargement des questions...</button>
+                <button class="btn btn-secondary" id="study-btn" onclick="startStudyMode()" disabled>Mode étude</button>
             </div>
 
             <!-- Quiz Screen -->
@@ -521,8 +521,8 @@
                 </div>
 
                 <div class="question-info">
-                    <span id="question-counter">Question 1 of 10</span>
-                    <span class="category-badge" id="category-badge">Capitals</span>
+                    <span id="question-counter">Question 1 sur 10</span>
+                    <span class="category-badge" id="category-badge">Capitales</span>
                 </div>
 
                 <div class="question-text" id="question-text"></div>
@@ -532,51 +532,51 @@
                 <div class="feedback hidden" id="feedback"></div>
 
                 <div style="text-align: center; margin-top: 20px;">
-                    <button class="btn hidden" id="next-btn" onclick="nextQuestion()">Next Question</button>
+                    <button class="btn hidden" id="next-btn" onclick="nextQuestion()">Question suivante</button>
                 </div>
             </div>
 
             <!-- Results Screen -->
             <div id="results-screen" class="hidden">
                 <div class="globe-emoji">🏆</div>
-                <h1>Quiz Complete!</h1>
+                <h1>Quiz terminé !</h1>
 
                 <div class="score-display">
                     <div class="score-number" id="final-score">0%</div>
-                    <div class="score-label" id="score-text">0 out of 10 correct</div>
+                    <div class="score-label" id="score-text">0 sur 10 correct</div>
                 </div>
 
                 <div class="results-breakdown" id="results-breakdown">
-                    <h3>Category Breakdown:</h3>
+                    <h3>Résultats par catégorie :</h3>
                 </div>
 
                 <div style="text-align: center;">
-                    <button class="btn" onclick="restartQuiz()">Play Again</button>
-                    <button class="btn btn-secondary" onclick="goHome()">Change Settings</button>
+                    <button class="btn" onclick="restartQuiz()">Rejouer</button>
+                    <button class="btn btn-secondary" onclick="goHome()">Modifier les paramètres</button>
                 </div>
             </div>
 
             <!-- Study Mode Screen -->
             <div id="study-screen" class="hidden">
                 <div class="study-header">
-                    <h1>Study Mode</h1>
-                    <p class="subtitle" id="study-category-label">All Categories</p>
+                    <h1>Mode étude</h1>
+                    <p class="subtitle" id="study-category-label">Toutes les catégories</p>
                 </div>
 
                 <div class="study-navigation">
                     <button class="nav-arrow" id="prev-study" onclick="prevStudyCard()">&larr;</button>
-                    <span id="study-counter">1 of 100</span>
+                    <span id="study-counter">1 sur 100</span>
                     <button class="nav-arrow" id="next-study" onclick="nextStudyCard()">&rarr;</button>
                 </div>
 
                 <div class="study-card">
-                    <span class="category-badge" id="study-card-category">Category</span>
-                    <div class="study-question" id="study-question">Question text here?</div>
-                    <div class="study-answer" id="study-answer">Answer text here</div>
+                    <span class="category-badge" id="study-card-category">Catégorie</span>
+                    <div class="study-question" id="study-question">Texte de la question ?</div>
+                    <div class="study-answer" id="study-answer">Texte de la réponse</div>
                 </div>
 
                 <div style="text-align: center; margin-top: 20px;">
-                    <button class="btn btn-secondary" onclick="goHome()">Back to Menu</button>
+                    <button class="btn btn-secondary" onclick="goHome()">Retour au menu</button>
                 </div>
             </div>
         </div>
@@ -590,15 +590,15 @@
         // Load questions from JSON file
         async function loadQuestions() {
             try {
-                const response = await fetch('questions.json');
+                const response = await fetch('questions-fr.json');
                 questions = await response.json();
                 questionsLoaded = true;
                 document.getElementById('start-btn').disabled = false;
-                document.getElementById('start-btn').textContent = 'Start Quiz';
+                document.getElementById('start-btn').textContent = 'Commencer le quiz';
                 document.getElementById('study-btn').disabled = false;
             } catch (error) {
-                console.error('Error loading questions:', error);
-                document.getElementById('start-btn').textContent = 'Error Loading Questions';
+                console.error('Erreur lors du chargement des questions:', error);
+                document.getElementById('start-btn').textContent = 'Erreur de chargement';
             }
         }
 
@@ -611,7 +611,7 @@
             speechSynthesis.cancel();
 
             const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'en-US';
+            utterance.lang = 'fr-FR';
             utterance.rate = 0.9; // Slightly slower for clarity
             speechSynthesis.speak(utterance);
         }
@@ -622,7 +622,7 @@
         let score = 0;
         let categoryScores = {};
         let selectedCategory = 'all';
-        let selectedRegion = 'all';
+        let selectedRegion = 'tous';
         let numQuestions = 10;
         let answered = false;
 
@@ -655,8 +655,8 @@
             }
 
             // Filter by region
-            if (region !== 'all') {
-                pool = pool.filter(q => q.region === region || q.region === 'all');
+            if (region !== 'tous') {
+                pool = pool.filter(q => q.region === region || q.region === 'tous');
             }
 
             pool = shuffleArray(pool);
@@ -665,30 +665,30 @@
 
         function getCategoryLabel(cat) {
             const labels = {
-                capitals: 'Capitals',
-                geography: 'Geography',
-                mountains: 'Mountains',
-                rivers: 'Rivers',
-                facts: 'Facts',
-                glossary: 'Glossary'
+                capitales: 'Capitales',
+                geographie: 'Géographie',
+                montagnes: 'Montagnes',
+                fleuves: 'Fleuves',
+                faits: 'Faits',
+                glossaire: 'Glossaire'
             };
             return labels[cat] || cat;
         }
 
         function getRegionLabel(region) {
             const labels = {
-                all: 'All Regions',
-                northern: 'Northern Europe',
-                southern: 'Southern Europe',
-                eastern: 'Eastern Europe',
-                western: 'Western Europe'
+                tous: 'Toutes les régions',
+                nord: 'Europe du Nord',
+                sud: 'Europe du Sud',
+                est: 'Europe de l\'Est',
+                ouest: 'Europe de l\'Ouest'
             };
             return labels[region] || region;
         }
 
         function startQuiz() {
             if (!questionsLoaded) {
-                alert('Questions are still loading. Please wait.');
+                alert('Les questions sont en cours de chargement. Veuillez patienter.');
                 return;
             }
             selectedCategory = document.getElementById('category').value;
@@ -698,7 +698,7 @@
             currentQuestions = getQuestions(selectedCategory, numQuestions, selectedRegion);
 
             if (currentQuestions.length === 0) {
-                alert('No questions found for the selected category and region combination. Please try different filters.');
+                alert('Aucune question trouvée pour cette combinaison de catégorie et région. Veuillez essayer d\'autres filtres.');
                 return;
             }
             currentQuestionIndex = 0;
@@ -718,7 +718,7 @@
             const question = currentQuestions[currentQuestionIndex];
 
             document.getElementById('question-counter').textContent =
-                `Question ${currentQuestionIndex + 1} of ${currentQuestions.length}`;
+                `Question ${currentQuestionIndex + 1} sur ${currentQuestions.length}`;
 
             document.getElementById('progress-fill').style.width =
                 `${((currentQuestionIndex) / currentQuestions.length) * 100}%`;
@@ -783,14 +783,14 @@
             // Add speaker button for audio pronunciation
             const speakerBtn = `<button class="speak-btn" onclick="pronounceAnswer('${question.a.replace(/'/g, "\\'")}')">🔊</button>`;
             if (correct) {
-                feedback.innerHTML = `Correct! ${speakerBtn}`;
+                feedback.innerHTML = `Correct ! ${speakerBtn}`;
             } else {
-                feedback.innerHTML = `Incorrect. The answer is: ${question.a} ${speakerBtn}`;
+                feedback.innerHTML = `Incorrect. La réponse est : ${question.a} ${speakerBtn}`;
             }
 
             document.getElementById('next-btn').classList.remove('hidden');
             document.getElementById('next-btn').textContent =
-                currentQuestionIndex < currentQuestions.length - 1 ? 'Next Question' : 'See Results';
+                currentQuestionIndex < currentQuestions.length - 1 ? 'Question suivante' : 'Voir les résultats';
         }
 
         function nextQuestion() {
@@ -811,11 +811,11 @@
             const percentage = Math.round((score / currentQuestions.length) * 100);
             document.getElementById('final-score').textContent = `${percentage}%`;
             document.getElementById('score-text').textContent =
-                `${score} out of ${currentQuestions.length} correct`;
+                `${score} sur ${currentQuestions.length} correct`;
 
             // Category breakdown
             const breakdown = document.getElementById('results-breakdown');
-            breakdown.innerHTML = '<h3>Category Breakdown:</h3>';
+            breakdown.innerHTML = '<h3>Résultats par catégorie :</h3>';
 
             for (let cat in categoryScores) {
                 const catData = categoryScores[cat];
@@ -844,7 +844,7 @@
         }
 
         function confirmExit() {
-            if (confirm('Are you sure you want to exit the quiz? Your progress will be lost.')) {
+            if (confirm('Êtes-vous sûr de vouloir quitter le quiz ? Votre progression sera perdue.')) {
                 goHome();
             }
         }
@@ -860,7 +860,7 @@
         // Study Mode Functions
         function startStudyMode() {
             if (!questionsLoaded) {
-                alert('Questions are still loading. Please wait.');
+                alert('Les questions sont en cours de chargement. Veuillez patienter.');
                 return;
             }
 
@@ -870,22 +870,22 @@
             studyIndex = 0;
 
             if (studyQuestions.length === 0) {
-                alert('No questions found for the selected category and region combination. Please try different filters.');
+                alert('Aucune question trouvée pour cette combinaison de catégorie et région. Veuillez essayer d\'autres filtres.');
                 return;
             }
 
             const categoryLabels = {
-                all: 'All Categories',
-                capitals: 'Countries & Capitals',
-                geography: 'Geography & Bodies of Water',
-                mountains: 'Mountains & Landforms',
-                rivers: 'Rivers',
-                facts: 'Interesting Facts',
-                glossary: 'Glossary Terms'
+                all: 'Toutes les catégories',
+                capitales: 'Pays et capitales',
+                geographie: 'Géographie et étendues d\'eau',
+                montagnes: 'Montagnes et reliefs',
+                fleuves: 'Fleuves',
+                faits: 'Faits intéressants',
+                glossaire: 'Termes du glossaire'
             };
 
             let label = categoryLabels[selectedCategory];
-            if (selectedRegion !== 'all') {
+            if (selectedRegion !== 'tous') {
                 label += ' - ' + getRegionLabel(selectedRegion);
             }
             document.getElementById('study-category-label').textContent = label;
@@ -902,7 +902,7 @@
             const question = studyQuestions[studyIndex];
 
             document.getElementById('study-counter').textContent =
-                `${studyIndex + 1} of ${studyQuestions.length}`;
+                `${studyIndex + 1} sur ${studyQuestions.length}`;
 
             document.getElementById('study-card-category').textContent =
                 getCategoryLabel(question.category);
