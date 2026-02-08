@@ -81,7 +81,25 @@
     { "q": "Quel est le plus petit pays du monde ?", "a": "La Cité du Vatican", "options": ["La Cité du Vatican", "Monaco", "Saint-Marin", "Le Liechtenstein"], "region": "sud" },
     { "q": "Quel est le deuxième plus petit pays du monde ?", "a": "Monaco", "options": ["Monaco", "La Cité du Vatican", "Saint-Marin", "Le Liechtenstein"], "region": "ouest" },
     { "q": "Quel pays entoure complètement Saint-Marin ?", "a": "L'Italie", "options": ["L'Italie", "La France", "La Suisse", "L'Autriche"], "region": "sud" },
-    { "q": "Quelle ville entoure complètement la Cité du Vatican ?", "a": "Rome", "options": ["Rome", "Milan", "Florence", "Naples"], "region": "sud" }
+    { "q": "Quelle ville entoure complètement la Cité du Vatican ?", "a": "Rome", "options": ["Rome", "Milan", "Florence", "Naples"], "region": "sud" },
+    { "q": "La Suède partage une longue frontière à l'ouest avec quel autre grand pays de la péninsule scandinave ?", "a": "La Norvège", "options": ["La Norvège", "La Finlande", "Le Danemark", "La Russie"], "region": "nord" },
+    { "q": "La Norvège est connue pour ses magnifiques quoi ?", "a": "Fjords", "options": ["Fjords", "Volcans", "Déserts", "Récifs coralliens"], "region": "nord" },
+    { "q": "Le Portugal a une longue côte le long de ____.", "a": "L'océan Atlantique", "options": ["L'océan Atlantique", "La mer Méditerranée", "La mer du Nord", "La mer Baltique"], "region": "sud" },
+    { "q": "Quelles sont les deux villes les plus peuplées du Portugal ?", "a": "Lisbonne et Porto", "options": ["Lisbonne et Porto", "Lisbonne et Faro", "Porto et Braga", "Lisbonne et Coimbra"], "region": "sud" },
+    { "q": "Quel est le pont le plus célèbre qui traverse la Tamise ?", "a": "London Bridge", "options": ["London Bridge", "Tower Bridge", "Westminster Bridge", "Waterloo Bridge"], "region": "ouest" },
+    { "q": "Quels deux pays (un grand et un petit) bordent la France au sud-ouest dans les Pyrénées ?", "a": "L'Espagne et l'Andorre", "options": ["L'Espagne et l'Andorre", "L'Espagne et le Portugal", "L'Italie et Monaco", "L'Espagne et Monaco"], "region": "ouest" },
+    { "q": "Quel pays du Benelux est le premier producteur mondial de tulipes et est célèbre pour ses moulins à vent historiques ?", "a": "Les Pays-Bas", "options": ["Les Pays-Bas", "La Belgique", "Le Luxembourg", "L'Allemagne"], "region": "ouest" },
+    { "q": "Quels pays partagent une frontière avec la Suisse ?", "a": "L'Allemagne, l'Autriche, le Liechtenstein, l'Italie et la France", "options": ["L'Allemagne, l'Autriche, le Liechtenstein, l'Italie et la France", "L'Allemagne, l'Autriche, l'Italie et la France", "L'Allemagne, l'Italie, la France et l'Espagne", "L'Allemagne, l'Autriche, la Belgique, l'Italie et la France"], "region": "ouest" },
+    { "q": "Quelle est la langue officielle du Liechtenstein ?", "a": "L'allemand", "options": ["L'allemand", "Le français", "L'italien", "Le romanche"], "region": "ouest" },
+    { "q": "La frontière nord de la Pologne se trouve sur quelle mer ?", "a": "La mer Baltique", "options": ["La mer Baltique", "La mer du Nord", "La mer Noire", "La mer Méditerranée"], "region": "est" },
+    { "q": "Quel pays borde la Slovaquie au nord ?", "a": "La Pologne", "options": ["La Pologne", "La République tchèque", "L'Ukraine", "La Hongrie"], "region": "est" },
+    { "q": "Quel pays borde la Slovaquie au nord-ouest ?", "a": "La République tchèque", "options": ["La République tchèque", "La Pologne", "L'Autriche", "L'Allemagne"], "region": "est" },
+    { "q": "Quel pays borde la Slovaquie à l'ouest ?", "a": "L'Autriche", "options": ["L'Autriche", "La République tchèque", "La Hongrie", "L'Allemagne"], "region": "est" },
+    { "q": "Quel pays borde la Slovaquie au sud ?", "a": "La Hongrie", "options": ["La Hongrie", "L'Autriche", "L'Ukraine", "La Roumanie"], "region": "est" },
+    { "q": "Quel pays borde la Slovaquie à l'est ?", "a": "L'Ukraine", "options": ["L'Ukraine", "La Pologne", "La Hongrie", "La Roumanie"], "region": "est" },
+    { "q": "Quelle est la langue officielle de la Moldavie ?", "a": "Le roumain", "options": ["Le roumain", "Le russe", "L'ukrainien", "Le bulgare"], "region": "est" },
+    { "q": "La Moldavie partage une frontière avec quels deux pays ?", "a": "La Roumanie et l'Ukraine", "options": ["La Roumanie et l'Ukraine", "La Roumanie et la Russie", "L'Ukraine et la Pologne", "La Hongrie et la Roumanie"], "region": "est" },
+    { "q": "Quels pays composent les États du Caucase ?", "a": "L'Arménie, l'Azerbaïdjan et la Géorgie", "options": ["L'Arménie, l'Azerbaïdjan et la Géorgie", "La Russie, la Turquie et l'Iran", "L'Arménie, la Géorgie et l'Ukraine", "L'Azerbaïdjan, le Kazakhstan et le Turkménistan"], "region": "est" }
   ],
   "montagnes": [
     { "q": "Quelle chaîne de montagnes forme la frontière entre l'Europe et l'Asie ?", "a": "Les monts Oural", "options": ["Les monts Oural", "Les Alpes", "Les Carpates", "Le Caucase"], "region": "est" },
@@ -101,7 +119,8 @@
     { "q": "Quelle est la longueur approximative des monts Oural ?", "a": "2 500 kilomètres", "options": ["2 500 kilomètres", "800 kilomètres", "4 800 kilomètres", "1 200 kilomètres"], "region": "est" },
     { "q": "Pour quoi les montagnes scandinaves sont-elles connues ?", "a": "Les fjords, les glaciers et les champs de glace", "options": ["Les fjords, les glaciers et les champs de glace", "Les volcans et les sources chaudes", "Les paysages désertiques", "Les forêts tropicales"], "region": "nord" },
     { "q": "Quel volcan a enseveli la ville de Pompéi en 79 après J.-C. ?", "a": "Le mont Vésuve", "options": ["Le mont Vésuve", "L'Etna", "Le Stromboli", "Le Vésuve"], "region": "sud" },
-    { "q": "Dans quel pays se trouve le mont Elbrouz ?", "a": "La Russie", "options": ["La Russie", "La Géorgie", "La Turquie", "L'Ukraine"], "region": "est" }
+    { "q": "Dans quel pays se trouve le mont Elbrouz ?", "a": "La Russie", "options": ["La Russie", "La Géorgie", "La Turquie", "L'Ukraine"], "region": "est" },
+    { "q": "Quelle chaîne de montagnes s'étend de la frontière entre la Serbie et la Bulgarie jusqu'à la mer Noire ?", "a": "Les montagnes des Balkans", "options": ["Les montagnes des Balkans", "Les Carpates", "Les monts Rhodope", "Les Alpes dinariques"], "region": "sud" }
   ],
   "fleuves": [
     { "q": "Quel est le plus long fleuve d'Europe ?", "a": "La Volga", "options": ["La Volga", "Le Danube", "Le Rhin", "Le Dniepr"], "region": "est" },
