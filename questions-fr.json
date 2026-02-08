@@ -23,7 +23,7 @@
     { "q": "Quelle est la capitale de la Russie ?", "a": "Moscou", "options": ["Moscou", "Saint-Pétersbourg", "Kazan", "Novossibirsk"], "region": "est" },
     { "q": "Quelle est la capitale de l'Ukraine ?", "a": "Kyiv", "options": ["Kyiv", "Kharkiv", "Odessa", "Lviv"], "region": "est" },
     { "q": "Quelle est la capitale de la Roumanie ?", "a": "Bucarest", "options": ["Bucarest", "Cluj-Napoca", "Timisoara", "Iasi"], "region": "est" },
-    { "q": "Quelle est la capitale de la Bulgarie ?", "a": "Sofia", "options": ["Sofia", "Plovdiv", "Varna", "Burgas"], "region": "sud" },
+    { "q": "Quelle est la capitale de la Bulgarie ?", "a": "Sofia", "options": ["Sofia", "Plovdiv", "Varna", "Burgas"], "region": "est" },
     { "q": "Quelle est la capitale de la Serbie ?", "a": "Belgrade", "options": ["Belgrade", "Novi Sad", "Nis", "Kragujevac"], "region": "sud" },
     { "q": "Quelle est la capitale de la Croatie ?", "a": "Zagreb", "options": ["Zagreb", "Split", "Dubrovnik", "Rijeka"], "region": "sud" },
     { "q": "Quelle est la capitale de la Slovénie ?", "a": "Ljubljana", "options": ["Ljubljana", "Maribor", "Celje", "Kranj"], "region": "sud" },
@@ -120,7 +120,7 @@
     { "q": "Pour quoi les montagnes scandinaves sont-elles connues ?", "a": "Les fjords, les glaciers et les champs de glace", "options": ["Les fjords, les glaciers et les champs de glace", "Les volcans et les sources chaudes", "Les paysages désertiques", "Les forêts tropicales"], "region": "nord" },
     { "q": "Quel volcan a enseveli la ville de Pompéi en 79 après J.-C. ?", "a": "Le mont Vésuve", "options": ["Le mont Vésuve", "L'Etna", "Le Stromboli", "Le Vésuve"], "region": "sud" },
     { "q": "Dans quel pays se trouve le mont Elbrouz ?", "a": "La Russie", "options": ["La Russie", "La Géorgie", "La Turquie", "L'Ukraine"], "region": "est" },
-    { "q": "Quelle chaîne de montagnes s'étend de la frontière entre la Serbie et la Bulgarie jusqu'à la mer Noire ?", "a": "Les montagnes des Balkans", "options": ["Les montagnes des Balkans", "Les Carpates", "Les monts Rhodope", "Les Alpes dinariques"], "region": "sud" }
+    { "q": "Quelle chaîne de montagnes s'étend de la frontière entre la Serbie et la Bulgarie jusqu'à la mer Noire ?", "a": "Les montagnes des Balkans", "options": ["Les montagnes des Balkans", "Les Carpates", "Les monts Rhodope", "Les Alpes dinariques"], "region": "est" }
   ],
   "fleuves": [
     { "q": "Quel est le plus long fleuve d'Europe ?", "a": "La Volga", "options": ["La Volga", "Le Danube", "Le Rhin", "Le Dniepr"], "region": "est" },
@@ -179,7 +179,7 @@
     { "q": "Quel scientifique polonais a proposé que la Terre tourne autour du Soleil ?", "a": "Copernic", "options": ["Copernic", "Galilée", "Newton", "Einstein"], "region": "est" },
     { "q": "Quelle scientifique polonaise a été la première femme à remporter un prix Nobel ?", "a": "Marie Curie", "options": ["Marie Curie", "Maria Sklodowska", "Helena Rubinstein", "Irène Joliot-Curie"], "region": "est" },
     { "q": "Pourquoi la Biélorussie est-elle parfois appelée les « Poumons de l'Europe » ?", "a": "Parce que près de la moitié de son territoire est couvert de forêts", "options": ["Parce que près de la moitié de son territoire est couvert de forêts", "Parce qu'elle a l'air le plus pur d'Europe", "À cause de ses nombreux hôpitaux", "À cause de ses usines d'oxygène"], "region": "est" },
-    { "q": "Quel alphabet la langue bulgare utilise-t-elle ?", "a": "L'alphabet cyrillique", "options": ["L'alphabet cyrillique", "L'alphabet latin", "L'alphabet grec", "L'alphabet arabe"], "region": "sud" },
+    { "q": "Quel alphabet la langue bulgare utilise-t-elle ?", "a": "L'alphabet cyrillique", "options": ["L'alphabet cyrillique", "L'alphabet latin", "L'alphabet grec", "L'alphabet arabe"], "region": "est" },
     { "q": "La Russie est si grande qu'elle a combien de fuseaux horaires ?", "a": "11", "options": ["11", "5", "8", "15"], "region": "est" },
     { "q": "Qu'est-ce que le Kremlin ?", "a": "Une forteresse médiévale à Moscou", "options": ["Une forteresse médiévale à Moscou", "Une cathédrale célèbre", "Un palais russe", "Un bâtiment gouvernemental"], "region": "est" },
     { "q": "Quelle déesse grecque serait née à Chypre ?", "a": "Aphrodite", "options": ["Aphrodite", "Athéna", "Héra", "Artémis"], "region": "sud" },
