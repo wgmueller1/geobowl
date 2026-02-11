@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GeoBowl 2026 - Quiz Europe</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -451,6 +455,94 @@
                 font-size: 1.1rem;
             }
         }
+
+        /* Map Screen Styles */
+        .map-header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .map-info {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .selected-country {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .border-countries {
+            color: #718096;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .border-countries strong {
+            color: #4a5568;
+        }
+
+        .map-legend {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-color {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            border: 2px solid #2d3748;
+        }
+
+        .legend-color.selected {
+            background: #667eea;
+        }
+
+        .legend-color.neighbor {
+            background: #f6ad55;
+        }
+
+        .map-container {
+            border-radius: 15px;
+            overflow: hidden;
+            height: 450px;
+        }
+
+        #europe-map {
+            height: 100%;
+            width: 100%;
+            background: #a8d5e5;
+        }
+
+        .country-tooltip {
+            background: rgba(45, 55, 72, 0.9);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-weight: 600;
+            padding: 6px 12px;
+            font-size: 0.9rem;
+        }
+
+        .leaflet-tooltip-left:before,
+        .leaflet-tooltip-right:before {
+            border: none;
+        }
     </style>
 </head>
 <body>
@@ -512,6 +604,7 @@
 
                 <button class="btn" id="start-btn" onclick="startQuiz()" disabled>Chargement des questions...</button>
                 <button class="btn btn-secondary" id="study-btn" onclick="startStudyMode()" disabled>Mode étude</button>
+                <button class="btn btn-secondary" id="map-btn" onclick="showMapScreen()">🗺️ Carte</button>
             </div>
 
             <!-- Quiz Screen -->
@@ -573,6 +666,32 @@
                     <span class="category-badge" id="study-card-category">Catégorie</span>
                     <div class="study-question" id="study-question">Texte de la question ?</div>
                     <div class="study-answer" id="study-answer">Texte de la réponse</div>
+                </div>
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn btn-secondary" onclick="goHome()">Retour au menu</button>
+                </div>
+            </div>
+
+            <!-- Map Screen -->
+            <div id="map-screen" class="hidden">
+                <div class="map-header">
+                    <h1>Carte de l'Europe</h1>
+                    <p class="subtitle">Cliquez sur un pays pour voir ses frontières</p>
+                </div>
+
+                <div class="map-info" id="map-info">
+                    <div class="selected-country" id="selected-country">Sélectionnez un pays</div>
+                    <div class="border-countries" id="border-countries"></div>
+                </div>
+
+                <div class="map-legend">
+                    <span class="legend-item"><span class="legend-color selected"></span> Sélectionné</span>
+                    <span class="legend-item"><span class="legend-color neighbor"></span> Frontières</span>
+                </div>
+
+                <div class="map-container">
+                    <div id="europe-map"></div>
                 </div>
 
                 <div style="text-align: center; margin-top: 20px;">
@@ -840,6 +959,7 @@
             document.getElementById('quiz-screen').classList.add('hidden');
             document.getElementById('results-screen').classList.add('hidden');
             document.getElementById('study-screen').classList.add('hidden');
+            document.getElementById('map-screen').classList.add('hidden');
             document.getElementById('exit-btn').classList.add('hidden');
         }
 
@@ -931,6 +1051,325 @@
                 studyIndex++;
                 showStudyCard();
             }
+        }
+
+        // Map functionality
+        const countryBorders = {
+            'Portugal': ['Espagne'],
+            'Espagne': ['Portugal', 'France', 'Andorre'],
+            'Andorre': ['Espagne', 'France'],
+            'France': ['Espagne', 'Andorre', 'Monaco', 'Italie', 'Suisse', 'Allemagne', 'Luxembourg', 'Belgique'],
+            'Monaco': ['France'],
+            'Belgique': ['France', 'Luxembourg', 'Allemagne', 'Pays-Bas'],
+            'Pays-Bas': ['Belgique', 'Allemagne'],
+            'Luxembourg': ['France', 'Belgique', 'Allemagne'],
+            'Allemagne': ['France', 'Luxembourg', 'Belgique', 'Pays-Bas', 'Danemark', 'Pologne', 'République tchèque', 'Autriche', 'Suisse'],
+            'Suisse': ['France', 'Allemagne', 'Autriche', 'Liechtenstein', 'Italie'],
+            'Liechtenstein': ['Suisse', 'Autriche'],
+            'Autriche': ['Allemagne', 'République tchèque', 'Slovaquie', 'Hongrie', 'Slovénie', 'Italie', 'Suisse', 'Liechtenstein'],
+            'Italie': ['France', 'Suisse', 'Autriche', 'Slovénie', 'Saint-Marin', 'Vatican'],
+            'Saint-Marin': ['Italie'],
+            'Vatican': ['Italie'],
+            'Slovénie': ['Italie', 'Autriche', 'Hongrie', 'Croatie'],
+            'Croatie': ['Slovénie', 'Hongrie', 'Serbie', 'Bosnie-Herzégovine', 'Monténégro'],
+            'Bosnie-Herzégovine': ['Croatie', 'Serbie', 'Monténégro'],
+            'Monténégro': ['Croatie', 'Bosnie-Herzégovine', 'Serbie', 'Kosovo', 'Albanie'],
+            'Albanie': ['Monténégro', 'Kosovo', 'Macédoine du Nord', 'Grèce'],
+            'Kosovo': ['Monténégro', 'Serbie', 'Macédoine du Nord', 'Albanie'],
+            'Serbie': ['Hongrie', 'Roumanie', 'Bulgarie', 'Macédoine du Nord', 'Kosovo', 'Monténégro', 'Bosnie-Herzégovine', 'Croatie'],
+            'Macédoine du Nord': ['Kosovo', 'Serbie', 'Bulgarie', 'Grèce', 'Albanie'],
+            'Grèce': ['Albanie', 'Macédoine du Nord', 'Bulgarie', 'Turquie'],
+            'Bulgarie': ['Serbie', 'Macédoine du Nord', 'Grèce', 'Turquie', 'Roumanie'],
+            'Roumanie': ['Hongrie', 'Serbie', 'Bulgarie', 'Ukraine', 'Moldavie'],
+            'Moldavie': ['Roumanie', 'Ukraine'],
+            'Ukraine': ['Pologne', 'Slovaquie', 'Hongrie', 'Roumanie', 'Moldavie', 'Biélorussie', 'Russie'],
+            'Biélorussie': ['Pologne', 'Lituanie', 'Lettonie', 'Russie', 'Ukraine'],
+            'Pologne': ['Allemagne', 'République tchèque', 'Slovaquie', 'Ukraine', 'Biélorussie', 'Lituanie', 'Russie'],
+            'République tchèque': ['Allemagne', 'Pologne', 'Slovaquie', 'Autriche'],
+            'Slovaquie': ['République tchèque', 'Pologne', 'Ukraine', 'Hongrie', 'Autriche'],
+            'Hongrie': ['Autriche', 'Slovaquie', 'Ukraine', 'Roumanie', 'Serbie', 'Croatie', 'Slovénie'],
+            'Danemark': ['Allemagne'],
+            'Suède': ['Norvège', 'Finlande'],
+            'Norvège': ['Suède', 'Finlande', 'Russie'],
+            'Finlande': ['Suède', 'Norvège', 'Russie'],
+            'Estonie': ['Lettonie', 'Russie'],
+            'Lettonie': ['Estonie', 'Lituanie', 'Biélorussie', 'Russie'],
+            'Lituanie': ['Lettonie', 'Biélorussie', 'Pologne', 'Russie'],
+            'Russie': ['Norvège', 'Finlande', 'Estonie', 'Lettonie', 'Lituanie', 'Pologne', 'Biélorussie', 'Ukraine', 'Géorgie', 'Azerbaïdjan'],
+            'Turquie': ['Grèce', 'Bulgarie', 'Géorgie', 'Arménie', 'Azerbaïdjan'],
+            'Géorgie': ['Russie', 'Turquie', 'Arménie', 'Azerbaïdjan'],
+            'Arménie': ['Géorgie', 'Turquie', 'Azerbaïdjan'],
+            'Azerbaïdjan': ['Russie', 'Géorgie', 'Arménie', 'Turquie'],
+            'Chypre': [],
+            'Malte': [],
+            'Islande': [],
+            'Irlande': ['Royaume-Uni'],
+            'Royaume-Uni': ['Irlande']
+        };
+
+        // Name mappings from GeoJSON to French names
+        const nameMapping = {
+            'Portugal': 'Portugal',
+            'Spain': 'Espagne',
+            'Andorra': 'Andorre',
+            'France': 'France',
+            'Monaco': 'Monaco',
+            'Belgium': 'Belgique',
+            'Netherlands': 'Pays-Bas',
+            'Luxembourg': 'Luxembourg',
+            'Germany': 'Allemagne',
+            'Switzerland': 'Suisse',
+            'Liechtenstein': 'Liechtenstein',
+            'Austria': 'Autriche',
+            'Italy': 'Italie',
+            'San Marino': 'Saint-Marin',
+            'Vatican City': 'Vatican',
+            'Slovenia': 'Slovénie',
+            'Croatia': 'Croatie',
+            'Bosnia and Herzegovina': 'Bosnie-Herzégovine',
+            'Bosnia and Herz.': 'Bosnie-Herzégovine',
+            'Montenegro': 'Monténégro',
+            'Albania': 'Albanie',
+            'Kosovo': 'Kosovo',
+            'Serbia': 'Serbie',
+            'Republic of Serbia': 'Serbie',
+            'North Macedonia': 'Macédoine du Nord',
+            'Macedonia': 'Macédoine du Nord',
+            'Greece': 'Grèce',
+            'Bulgaria': 'Bulgarie',
+            'Romania': 'Roumanie',
+            'Moldova': 'Moldavie',
+            'Ukraine': 'Ukraine',
+            'Belarus': 'Biélorussie',
+            'Poland': 'Pologne',
+            'Czech Republic': 'République tchèque',
+            'Czechia': 'République tchèque',
+            'Slovakia': 'Slovaquie',
+            'Hungary': 'Hongrie',
+            'Denmark': 'Danemark',
+            'Sweden': 'Suède',
+            'Norway': 'Norvège',
+            'Finland': 'Finlande',
+            'Estonia': 'Estonie',
+            'Latvia': 'Lettonie',
+            'Lithuania': 'Lituanie',
+            'Russia': 'Russie',
+            'Turkey': 'Turquie',
+            'Georgia': 'Géorgie',
+            'Armenia': 'Arménie',
+            'Azerbaijan': 'Azerbaïdjan',
+            'Cyprus': 'Chypre',
+            'Malta': 'Malte',
+            'Iceland': 'Islande',
+            'Ireland': 'Irlande',
+            'United Kingdom': 'Royaume-Uni'
+        };
+
+        let europeMap = null;
+        let geoJsonLayer = null;
+        let countryLayers = {};
+        let selectedCountry = null;
+
+        const defaultStyle = {
+            fillColor: '#c8d6dc',
+            weight: 1,
+            opacity: 1,
+            color: '#ffffff',
+            fillOpacity: 0.8
+        };
+
+        const hoverStyle = {
+            fillColor: '#a0c4cc',
+            weight: 2,
+            color: '#667eea',
+            fillOpacity: 0.9
+        };
+
+        const selectedStyle = {
+            fillColor: '#667eea',
+            weight: 2,
+            color: '#4c51bf',
+            fillOpacity: 0.9
+        };
+
+        const neighborStyle = {
+            fillColor: '#f6ad55',
+            weight: 2,
+            color: '#dd6b20',
+            fillOpacity: 0.9
+        };
+
+        function showMapScreen() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('results-screen').classList.add('hidden');
+            document.getElementById('study-screen').classList.add('hidden');
+            document.getElementById('map-screen').classList.remove('hidden');
+
+            // Initialize map if not already done
+            if (!europeMap) {
+                initializeMap();
+            } else {
+                // Reset selection when returning to map
+                resetMapSelection();
+                europeMap.invalidateSize();
+            }
+        }
+
+        function initializeMap() {
+            // Create the map centered on Europe
+            europeMap = L.map('europe-map', {
+                center: [54, 15],
+                zoom: 4,
+                minZoom: 3,
+                maxZoom: 7
+            });
+
+            // Add a simple tile layer for context
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                subdomains: 'abcd',
+                maxZoom: 20
+            }).addTo(europeMap);
+
+            // Load GeoJSON data
+            loadEuropeGeoJSON();
+        }
+
+        async function loadEuropeGeoJSON() {
+            try {
+                // Using Natural Earth data via GitHub
+                const response = await fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson');
+                const data = await response.json();
+
+                // Filter for European countries
+                const europeanCountries = [
+                    'Portugal', 'Spain', 'Andorra', 'France', 'Monaco', 'Belgium', 'Netherlands',
+                    'Luxembourg', 'Germany', 'Switzerland', 'Liechtenstein', 'Austria', 'Italy',
+                    'San Marino', 'Vatican City', 'Slovenia', 'Croatia', 'Bosnia and Herzegovina',
+                    'Bosnia and Herz.', 'Montenegro', 'Albania', 'Kosovo', 'Serbia', 'Republic of Serbia',
+                    'North Macedonia', 'Macedonia', 'Greece', 'Bulgaria', 'Romania', 'Moldova',
+                    'Ukraine', 'Belarus', 'Poland', 'Czech Republic', 'Czechia', 'Slovakia', 'Hungary',
+                    'Denmark', 'Sweden', 'Norway', 'Finland', 'Estonia', 'Latvia', 'Lithuania',
+                    'Russia', 'Turkey', 'Georgia', 'Armenia', 'Azerbaijan', 'Cyprus', 'Malta',
+                    'Iceland', 'Ireland', 'United Kingdom'
+                ];
+
+                const europeData = {
+                    type: 'FeatureCollection',
+                    features: data.features.filter(f =>
+                        europeanCountries.includes(f.properties.ADMIN) ||
+                        europeanCountries.includes(f.properties.name)
+                    )
+                };
+
+                // Add GeoJSON layer
+                geoJsonLayer = L.geoJSON(europeData, {
+                    style: defaultStyle,
+                    onEachFeature: onEachCountry
+                }).addTo(europeMap);
+
+            } catch (error) {
+                console.error('Erreur lors du chargement du GeoJSON:', error);
+                document.getElementById('selected-country').textContent = 'Erreur de chargement des données';
+            }
+        }
+
+        function onEachCountry(feature, layer) {
+            const countryName = feature.properties.ADMIN || feature.properties.name;
+            const frenchName = nameMapping[countryName] || countryName;
+
+            // Store reference to layer
+            countryLayers[frenchName] = layer;
+            if (countryName !== frenchName) {
+                countryLayers[countryName] = layer;
+            }
+
+            layer.on({
+                mouseover: function(e) {
+                    if (frenchName !== selectedCountry) {
+                        const borders = countryBorders[frenchName] || [];
+                        if (!borders.includes(selectedCountry) && selectedCountry !== null) {
+                            // Only apply hover if not a neighbor of selected
+                            if (!isNeighborOfSelected(frenchName)) {
+                                layer.setStyle(hoverStyle);
+                            }
+                        } else if (selectedCountry === null) {
+                            layer.setStyle(hoverStyle);
+                        }
+                    }
+                },
+                mouseout: function(e) {
+                    if (frenchName !== selectedCountry && !isNeighborOfSelected(frenchName)) {
+                        layer.setStyle(defaultStyle);
+                    }
+                },
+                click: function(e) {
+                    selectCountryOnMap(frenchName);
+                }
+            });
+
+            // Add tooltip with country name in French
+            layer.bindTooltip(frenchName, {
+                permanent: false,
+                direction: 'center',
+                className: 'country-tooltip'
+            });
+        }
+
+        function isNeighborOfSelected(countryName) {
+            if (!selectedCountry) return false;
+            const borders = countryBorders[selectedCountry] || [];
+            return borders.includes(countryName);
+        }
+
+        function selectCountryOnMap(countryName) {
+            // Reset previous selection
+            resetMapSelection();
+
+            selectedCountry = countryName;
+
+            // Highlight selected country
+            const layer = countryLayers[countryName];
+            if (layer) {
+                layer.setStyle(selectedStyle);
+                layer.bringToFront();
+            }
+
+            // Get and highlight neighbors
+            const borders = countryBorders[countryName] || [];
+            borders.forEach(neighbor => {
+                const neighborLayer = countryLayers[neighbor];
+                if (neighborLayer) {
+                    neighborLayer.setStyle(neighborStyle);
+                }
+            });
+
+            // Bring selected to front again
+            if (layer) {
+                layer.bringToFront();
+            }
+
+            // Update info panel
+            document.getElementById('selected-country').textContent = countryName;
+
+            const borderInfo = document.getElementById('border-countries');
+            if (borders.length === 0) {
+                borderInfo.innerHTML = '<em>Nation insulaire - pas de frontières terrestres</em>';
+            } else {
+                borderInfo.innerHTML = `<strong>Partage ${borders.length} frontière${borders.length > 1 ? 's' : ''} avec :</strong><br>${borders.join(', ')}`;
+            }
+        }
+
+        function resetMapSelection() {
+            // Reset all country styles
+            Object.values(countryLayers).forEach(layer => {
+                layer.setStyle(defaultStyle);
+            });
+
+            document.getElementById('selected-country').textContent = 'Sélectionnez un pays';
+            document.getElementById('border-countries').innerHTML = '';
+            selectedCountry = null;
         }
     </script>
 </body>
